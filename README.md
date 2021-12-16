@@ -1,0 +1,1 @@
+# Coinbase API - PHP wrapper

@@ -1,0 +1,25 @@
+{
+    "name": "steve-polite/coinbase-api-php",
+    "description": "Coinbase API PHP wrapper",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stefano Cortese",
+            "email": "stefanocortese95@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "StevePolite\\Coinbase\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StevePolite\\Coinbase\\Tests": "tests"
+        }
+    }
+}
