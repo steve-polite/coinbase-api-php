@@ -39,7 +39,7 @@ class BaseCoinbaseClient
 
         \curl_close($ch);
 
-        // test squash 3
+        // test squash 1-3
 
         return json_decode($response);
     }
