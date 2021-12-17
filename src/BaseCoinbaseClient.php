@@ -27,7 +27,61 @@ class BaseCoinbaseClient
 
     public function request($method, $path, $params)
     {
-        // TODO: call API from here
+        $ch = \curl_init();
+        \curl_setopt($ch, \CURLOPT_URL, $this->getApiBase() . $path);
+        \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
+        \curl_setopt($ch, \CURLOPT_HTTPHEADER, $this->getCoinbaseAuthHeader($path, '', $method));
+
+        $method = \trim(\strtolower($method));
+        if ($method === "post") \curl_setopt($ch, \CURLOPT_POST, 1);
+
+        $response = \curl_exec($ch);
+
+        \curl_close($ch);
+
+        return json_decode($response);
+    }
+
+    /**
+     * Create Coinbase API header for authenticated API calls
+     * 
+     * @param string $path
+     * @param null|string|array $body
+     * @param string $method
+     * 
+     * @return array the header for auth API calls
+     */
+    private function getCoinbaseAuthHeader(string $path, $body, string $method): array
+    {
+        $timestamp = time();
+        return [
+            'User-Agent: steve-polite/coinbase-api-php',
+            'Content-Type: application/json',
+            'CB-ACCESS-KEY: ' . $this->getApiKey(),
+            'CB-ACCESS-SIGN: ' . $this->getSignature($path, $body, $method, $timestamp),
+            'CB-ACCESS-TIMESTAMP: ' . $timestamp,
+            'CB-ACCESS-PASSPHRASE: ' . $this->getApiPassphrase()
+        ];
+    }
+
+    /**
+     * Create CB-ACCESS-SIGN header for Coinbase API authentication
+     * 
+     * @param string $path
+     * @param null|string|array $body
+     * @param string $method
+     * @param integer $timestamp
+     * 
+     * @return string the signature used to CB-ACCESS-SIGN header
+     */
+    private function getSignature(string $path, $body, string $method, int $timestamp): string
+    {
+        if (\is_array($body)) $body = json_encode($body);
+        elseif (\is_null($body)) $body = '';
+
+        $what = $timestamp . \strtoupper($method) . $path . $body;
+
+        return \base64_encode(\hash_hmac("sha256", $what, \base64_decode($this->getApiSecret()), true));
     }
 
     /**
@@ -41,6 +95,16 @@ class BaseCoinbaseClient
     }
 
     /**
+     * Gets the API secret used by the client to authenticate requests.
+     *
+     * @return null|string the API secret used by the client to send requests
+     */
+    public function getApiSecret()
+    {
+        return $this->config['api_secret'];
+    }
+
+    /**
      * Gets the API passphrase used by the client to authenticate requests.
      *
      * @return null|string the API passphrase used by the client to send requests
@@ -51,6 +115,20 @@ class BaseCoinbaseClient
     }
 
     /**
+     * Gets the base URL for Coinbase's API.
+     *
+     * @return string the base URL for Coinbase's API
+     */
+    public function getApiBase()
+    {
+        if ($this->config['is_sandbox']) {
+            return self::SANDBOX_API_BASE;
+        }
+
+        return $this->config['api_base'];
+    }
+
+    /**
      *
      * @return array<string, mixed>
      */
@@ -58,19 +136,11 @@ class BaseCoinbaseClient
     {
         return [
             'api_key' => null,
+            'api_secret' => null,
             'api_passphrase' => null,
             'api_base' => self::DEFAULT_API_BASE,
+            'is_sandbox' => false,
         ];
-    }
-
-    /**
-     * Gets the base URL for Coinbase's API.
-     *
-     * @return string the base URL for Coinbase's API
-     */
-    public function getApiBase()
-    {
-        return $this->config['api_base'];
     }
 
     /**
@@ -83,6 +153,11 @@ class BaseCoinbaseClient
         // api_key
         if (!\is_string($config['api_key'])) {
             throw new \StevePolite\Coinbase\Exception\InvalidArgumentException('api_key must be a string');
+        }
+
+        // api_secret
+        if (!\is_string($config['api_secret'])) {
+            throw new \StevePolite\Coinbase\Exception\InvalidArgumentException('api_secret must be a string');
         }
 
         // api_passphrase

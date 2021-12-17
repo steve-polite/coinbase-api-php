@@ -15,7 +15,9 @@ class AccountService extends \StevePolite\Coinbase\Service\AbstractService
     }
 
     /**
-     * Get a list of trading accounts from the profile of the API key.
+     * Information for a single account. 
+     * Use this endpoint when you know the account_id. 
+     * API key must belong to the same profile as the account.
      *
      * @param string $id
      * @param null|array $params
