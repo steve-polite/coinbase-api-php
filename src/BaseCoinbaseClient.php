@@ -27,21 +27,43 @@ class BaseCoinbaseClient
 
     public function request($method, $path, $params)
     {
+        /*
+            TODO:
+            1. spostare questo codice dentro una funzione esterna che si occupa di fare solamente la chiamata
+            2. Rimuovere headers della risposta che non servono
+            3. Convertire la risposta in un oggetto Coinbase (oggetto singolo o lista)
+        */
+
+        $query_string = [];
+        if (\is_array($params)) {
+            foreach ($params as $param_key => $param) {
+                $query_string[] = $param_key . "=" . $param;
+            }
+        }
+
+        if (\count($query_string) > 0) {
+            $path .= "?" . implode("&", $query_string);
+        }
+
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, $this->getApiBase() . $path);
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         \curl_setopt($ch, \CURLOPT_HTTPHEADER, $this->getCoinbaseAuthHeader($path, '', $method));
+        \curl_setopt($ch, \CURLOPT_HEADER, true);
 
         $method = \trim(\strtolower($method));
         if ($method === "post") \curl_setopt($ch, \CURLOPT_POST, 1);
 
         $response = \curl_exec($ch);
 
+        $header_size = \curl_getinfo($ch, \CURLINFO_HEADER_SIZE);
+        $header = \substr($response, 0, $header_size);
+        $body = \substr($response, $header_size);
+        $http_code = \curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
+
         \curl_close($ch);
 
-        // test squash 1-3
-
-        return json_decode($response);
+        return json_decode($body);
     }
 
     /**
