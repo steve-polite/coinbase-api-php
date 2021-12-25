@@ -1,7 +1,14 @@
 {
     "name": "steve-polite/coinbase-api-php",
     "description": "Coinbase API PHP wrapper",
+    "keywords": [
+        "coinbase",
+        "coinbase-api",
+        "coinbase-api-php",
+        "crypto-api"
+    ],
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Stefano Cortese",
