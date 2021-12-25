@@ -106,7 +106,7 @@ class ApiRequestor
     {
         $timestamp = time();
 
-        return [
+        $header = [
             'User-Agent: steve-polite/coinbase-api-php',
             'Content-Type: application/json',
             'CB-ACCESS-KEY: ' . $this->_api_key,
@@ -114,6 +114,12 @@ class ApiRequestor
             'CB-ACCESS-TIMESTAMP: ' . $timestamp,
             'CB-ACCESS-PASSPHRASE: ' . $this->_api_passphrase
         ];
+
+        if (\strtolower($method) === "post") {
+            $header[] = "Accept: application/json";
+        }
+
+        return $header;
     }
 
     /**

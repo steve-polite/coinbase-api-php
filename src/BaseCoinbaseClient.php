@@ -40,10 +40,6 @@ class BaseCoinbaseClient
 
         $response = $requestor->request($method, $path, $body_params);
         return $response;
-        /*
-            TODO:
-            3. Convertire la risposta in un oggetto Coinbase (oggetto singolo o lista)
-        */
     }
 
     /**
