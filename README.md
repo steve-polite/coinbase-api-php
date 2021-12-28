@@ -25,34 +25,31 @@ $coinbase = new \StevePolite\Coinbase\CoinbaseClient([
     'api_key' => '{YOUR API KEY}',
     'api_secret' => '{YOUR API SECRET}',
     'api_passphrase' => '{YOUR API PASSPHRASE}',
-    'is_sandbox' => true // 
+    'is_sandbox' => true // true if it is a sandbox API key, false or omit if it is a live API key
 ]);
-```
+```  
+  
 
 ## Pagination
 ```
 TODO: define pagination logic
-```
+```  
+  
 
+  
 ## Managed APIs 
 ### Accounts
-#### Get all accounts for a profile
-Get a list of trading accounts from the profile of the API key.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccounts)
+#### Get all accounts for a profile [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccounts)
 ``` php
 $accounts = $coinbase->accounts->all();
 ```
 
-#### Get a single account by id
-Information for a single account. Use this endpoint when you know the ```account_id```. API key must belong to the same profile as the account.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccount)
+#### Get a single account by id [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccount)
 ``` php
 $account = $coinbase->accounts->retrieve("ACCOUNT_ID");
 ```
 
-#### Get a single account's holds
-List the holds of an account that belong to the same profile as the API key. Holds are placed on an account for any active orders or pending withdraw requests. As an order is filled, the hold amount is updated. If an order is canceled, any remaining hold is removed. For withdrawals, the hold is removed after it is completed.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountholds)
+#### Get a single account's holds [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountholds)
 ``` php
 // $params is optional, you can use an empty array instead
 $params = [
@@ -64,9 +61,7 @@ $params = [
 $holds = $coinbase->accounts->holds("ACCOUNT_ID", $params);
 ```  
 
-#### Get a single account's ledger
-Lists ledger activity for an account. This includes anything that would affect the accounts balance - transfers, trades, fees, etc.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountledger)
+#### Get a single account's ledger [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountledger)
 ``` php
 // $params is optional, you can use an empty array instead
 $params = [
@@ -81,9 +76,7 @@ $params = [
 $ledger = $coinbase->accounts->ledger("ACCOUNT_ID", $params);
 ```
 
-#### Get a single account's transfers
-Lists past withdrawals and deposits for an account.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccounttransfers)
+#### Get a single account's transfers [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccounttransfers)
 ``` php
 // $params is optional, you can use an empty array instead
 $params = [
@@ -95,18 +88,16 @@ $params = [
 
 $transfers = $coinbase->accounts->transfers("ACCOUNT_ID", $params);
 ```   
-
+  
+    
+    
 ### Coinbase Accounts
-#### Get all Coinbase wallets
-Gets all the user's available Coinbase wallets (These are the wallets/accounts that are used for buying and selling on www.coinbase.com).  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getcoinbaseaccounts)
+#### Get all Coinbase wallets [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getcoinbaseaccounts)
 ``` php
 $wallets = $coinbase->coinbase_accounts->all();
 ```
 
-#### Generate crypto address
-Generates a one-time crypto address for depositing crypto.  
-[Docs link](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_postcoinbaseaccountaddresses)  
+#### Generate crypto address [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_postcoinbaseaccountaddresses)  
 ``` php
 $address = $coinbase->coinbase_accounts->address("ACCOUNT_ID");
 ```
