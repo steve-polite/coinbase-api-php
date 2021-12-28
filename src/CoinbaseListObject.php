@@ -7,22 +7,22 @@ class CoinbaseListObject
     /**
      * @var string
      */
-    private $object;
+    public $object;
 
     /**
      * @var array
      */
-    private $data;
+    public $data;
 
     /**
      * @var null|string
      */
-    private $prev_cursor;
+    public $prev_cursor;
 
     /**
      * @var null|string
      */
-    private $next_cursor;
+    public $next_cursor;
 
     public function __construct(string $object, array $header, array $data)
     {
