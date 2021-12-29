@@ -16,9 +16,9 @@ abstract class AbstractService
         return $this->client;
     }
 
-    protected function request($method, $path, $params)
+    protected function request($method, $path, $params, $body = null)
     {
-        return $this->getClient()->request($method, $path, $params);
+        return $this->getClient()->request($method, $path, $params, $body);
     }
 
     protected function buildPath($basePath, ...$ids)

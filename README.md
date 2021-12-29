@@ -51,11 +51,10 @@ $account = $coinbase->accounts->retrieve("ACCOUNT_ID");
 
 #### Get a single account's holds [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountholds)
 ``` php
-// $params is optional, you can use an empty array instead
 $params = [
-    "before" => string,
-    "after" => string,
-    "limit" => int
+    "before" => ?string,
+    "after" => ?string,
+    "limit" => ?int
 ];
 
 $holds = $coinbase->accounts->holds("ACCOUNT_ID", $params);
@@ -63,14 +62,13 @@ $holds = $coinbase->accounts->holds("ACCOUNT_ID", $params);
 
 #### Get a single account's ledger [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccountledger)
 ``` php
-// $params is optional, you can use an empty array instead
 $params = [
-    "start_date" => string,
-    "end_date" => string,
-    "before" => string,
-    "after" => string,
-    "limit" => int,
-    "profile_id" => string
+    "start_date" => ?string,
+    "end_date" => ?string,
+    "before" => ?string,
+    "after" => ?string,
+    "limit" => ?int,
+    "profile_id" => ?string
 ];
 
 $ledger = $coinbase->accounts->ledger("ACCOUNT_ID", $params);
@@ -78,12 +76,11 @@ $ledger = $coinbase->accounts->ledger("ACCOUNT_ID", $params);
 
 #### Get a single account's transfers [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getaccounttransfers)
 ``` php
-// $params is optional, you can use an empty array instead
 $params = [
-    "before" => string,
-    "after" => string,
-    "limit" => int,
-    "type" => string
+    "before" => ?string,
+    "after" => ?string,
+    "limit" => ?int,
+    "type" => ?string
 ];
 
 $transfers = $coinbase->accounts->transfers("ACCOUNT_ID", $params);
@@ -100,4 +97,40 @@ $wallets = $coinbase->coinbase_accounts->all();
 #### Generate crypto address [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_postcoinbaseaccountaddresses)  
 ``` php
 $address = $coinbase->coinbase_accounts->address("ACCOUNT_ID");
-```
+```  
+   
+
+  
+### Conversions  
+#### Convert currency [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_postconversion)
+``` php
+$params = [
+    'profile_id' => ?string,
+    'from' => string,
+    'to' => string,
+    'amount' => string,
+    'nonce' => ?string 
+];
+$conversion = $coinbase->conversions->convert($params);
+```  
+  
+#### Get a conversion [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getconversion)
+``` php
+$params = [
+    'profile_id' => ?string
+];
+$conversion = $coinbase->conversions->retrieve("CONVERSION_ID", $params);
+```  
+  
+
+
+### Currencies  
+#### Get all know currencies [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getcurrencies)
+``` php
+$currencies = $coinbase->currencies->all();
+```  
+  
+#### Get a currency [(docs)](https://docs.cloud.coinbase.com/exchange/reference/exchangerestapi_getcurrency)
+``` php
+$currency = $coinbase->currencies->retrieve("CURRENCY_ID");
+```  

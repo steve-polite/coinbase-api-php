@@ -69,6 +69,7 @@ class ApiRequestor
         $method = \trim(\strtolower($method));
         if ($method === "post") {
             \curl_setopt($ch, \CURLOPT_POST, 1);
+            \curl_setopt($ch, \CURLOPT_POSTFIELDS, \json_encode($body_params));
         }
 
         $response = \curl_exec($ch);

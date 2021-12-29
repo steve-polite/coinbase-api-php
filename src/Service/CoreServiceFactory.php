@@ -7,6 +7,8 @@ class CoreServiceFactory extends \StevePolite\Coinbase\Service\AbstractServiceFa
     private static $class_map = [
         'accounts' => AccountService::class,
         'coinbase_accounts' => CoinbaseAccountService::class,
+        'conversions' => ConversionService::class,
+        'currencies' => CurrencyService::class,
     ];
 
     protected function getServiceClass($name)

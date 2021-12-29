@@ -9,9 +9,9 @@ class AccountService extends \StevePolite\Coinbase\Service\AbstractService
      *
      * @param null|array $params
      */
-    public function all($params = null)
+    public function all()
     {
-        return $this->request('get', '/accounts', $params);
+        return $this->request('get', '/accounts', []);
     }
 
     /**
@@ -22,9 +22,9 @@ class AccountService extends \StevePolite\Coinbase\Service\AbstractService
      * @param string $id
      * @param null|array $params
      */
-    public function retrieve($id, $params = null)
+    public function retrieve($id)
     {
-        return $this->request('get', $this->buildPath("/accounts/%s", $id), $params);
+        return $this->request('get', $this->buildPath("/accounts/%s", $id), []);
     }
 
     /**
